@@ -1,0 +1,91 @@
+{
+  "name": "memory-can",
+  "version": "1.0.0",
+  "description": "记忆罐头 - AI 对话记录可视化管理系统",
+  "main": "main.js",
+  "scripts": {
+    "start": "unset ELECTRON_RUN_AS_NODE && unset NODE_OPTIONS && electron . --no-sandbox",
+    "dev": "unset ELECTRON_RUN_AS_NODE && unset NODE_OPTIONS && electron . --dev --no-sandbox",
+    "build": "unset ELECTRON_RUN_AS_NODE && unset NODE_OPTIONS && electron-builder --mac",
+    "build:dir": "unset ELECTRON_RUN_AS_NODE && unset NODE_OPTIONS && electron-builder --mac --dir",
+    "build:win": "unset ELECTRON_RUN_AS_NODE && unset NODE_OPTIONS && electron-builder --win"
+  },
+  "build": {
+    "appId": "com.memory.capsule",
+    "productName": "记忆罐头",
+    "icon": "build/icon.png",
+    "mac": {
+      "category": "public.app-category.developer-tools",
+      "target": [
+        "dmg",
+        "zip"
+      ]
+    },
+    "dmg": {
+      "title": "记忆罐头 ${version} 安装指南",
+      "backgroundColor": "#120d1f",
+      "iconSize": 96,
+      "iconTextSize": 12,
+      "window": {
+        "width": 540,
+        "height": 380
+      },
+      "contents": [
+        {
+          "x": 145,
+          "y": 205
+        },
+        {
+          "x": 395,
+          "y": 205,
+          "type": "link",
+          "path": "/Applications"
+        }
+      ]
+    },
+    "win": {
+      "target": [
+        "nsis"
+      ],
+      "icon": "build/icon.png"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "artifactName": "${productName}-Setup-${version}.${ext}"
+    },
+    "asar": true,
+    "files": [
+      "main.js",
+      "preload.js",
+      "src/**/*",
+      "package.json",
+      "!dist/**"
+    ],
+    "extraResources": [
+      {
+        "from": "../anonymize_chat_logs.py",
+        "to": "anonymize_chat_logs.py"
+      },
+      {
+        "from": "../给智能体的数据收集指令.md",
+        "to": "给智能体的数据收集指令.md"
+      },
+      {
+        "from": "../web/dist",
+        "to": "web/dist"
+      }
+    ],
+    "directories": {
+      "output": "dist"
+    }
+  },
+  "dependencies": {
+    "buffer-crc32": "^1.0.0",
+    "sql.js": "^1.12.0"
+  },
+  "devDependencies": {
+    "electron": "^33.0.0",
+    "electron-builder": "^25.1.8"
+  }
+}
